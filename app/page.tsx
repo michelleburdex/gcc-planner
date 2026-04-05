@@ -99,4 +99,4 @@ export default function HomePage() {
     </main>
   );
 }
-Commit that and Vercel will redeploy automatically. Your homepage will show the updated copy within a few minutes. Rest well tonight — tomorrow we finish testing and get you ready to sell.Sonnet 4.6
+
