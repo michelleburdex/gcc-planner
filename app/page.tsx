@@ -3,7 +3,6 @@ import Link from "next/link";
 export default function HomePage() {
   return (
     <main style={{ minHeight: "100vh", background: "#FAF7F0" }}>
-      {/* Hero */}
       <div style={{
         background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)",
         borderBottom: "4px solid #C9A84C",
@@ -21,7 +20,7 @@ export default function HomePage() {
           The Daily Command Center
         </h1>
         <p style={{ color: "#A7D5B5", fontSize: 18, maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.7 }}>
-          A faith-based digital productivity journal built specifically for nonprofit professionals, grant writers, and emerging executive leaders.
+          A faith-based daily command center for nonprofit leaders to stay organized, focused, and grounded.
         </p>
         <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
           <Link href="/signup" style={{
@@ -42,19 +41,18 @@ export default function HomePage() {
         </div>
       </div>
 
-      {/* Features */}
       <div style={{ maxWidth: 900, margin: "0 auto", padding: "64px 24px" }}>
         <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#1B4332", fontSize: 28, textAlign: "center", marginBottom: 48 }}>
-          Everything you need. Nothing you don't.
+          Where faith meets organized and effective leadership execution.
         </h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
           {[
-            { icon: "✝️",  title: "Daily Scripture",           body: "A new verse every morning to center your spirit before the work begins." },
-            { icon: "✍🏾", title: "7 Task Categories",         body: "Grant work, follow-ups, children's book, reopening, leadership — all organized." },
-            { icon: "📖",  title: "Persistent Journal",        body: "Every entry saves to your account. Flip back through past days anytime." },
-            { icon: "👑",  title: "Power Map & Leadership",    body: "Reflection prompts and a weekly checklist to keep your executive goals in view." },
-            { icon: "🌿",  title: "Protected Mental Breaks",   body: "Two built-in breaks per day. Rest is not a luxury. It is maintenance." },
-            { icon: "✨",  title: "Premium Customization",     body: "Add your own logo, colors, and mission statement. Make it yours." },
+            { icon: "✝️",  title: "Daily Scripture",          body: "A new verse every morning to center your spirit before the work begins." },
+            { icon: "✍🏾", title: "Task Categories",          body: "Grant work, follow-ups, program coordination, leadership development — all organized and color-coded." },
+            { icon: "📖",  title: "Persistent Journal",       body: "Every entry saves to your account. Flip back through past days anytime." },
+            { icon: "👑",  title: "Power Map & Leadership",   body: "Reflection prompts and a weekly checklist to keep your executive goals in view." },
+            { icon: "🌿",  title: "Protected Mental Breaks",  body: "Two built-in breaks per day. Rest is not a luxury. It is maintenance." },
+            { icon: "✨",  title: "Premium Customization",    body: "Add your own logo, colors, and mission statement. Make it yours." },
           ].map((f, i) => (
             <div key={i} style={{ background: "#FFFFFF", borderRadius: 14, padding: 24, border: "1.5px solid #E5DFC8", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
               <div style={{ fontSize: 28, marginBottom: 12 }}>{f.icon}</div>
@@ -64,14 +62,13 @@ export default function HomePage() {
           ))}
         </div>
 
-        {/* Pricing */}
         <div style={{ marginTop: 72, textAlign: "center" }}>
           <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#1B4332", fontSize: 28, marginBottom: 40 }}>
             Simple, one-time pricing.
           </h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 640, margin: "0 auto" }}>
             {[
-              { tier: "Standard", price: "$12", features: ["All planner features", "Daily scripture & affirmation", "Full journal archive", "GCC-inspired green & gold design", "Lifetime access"] },
+              { tier: "Standard", price: "$12", features: ["All planner features", "Daily scripture & affirmation", "Full journal archive", "Green & gold design", "Lifetime access"] },
               { tier: "Premium",  price: "$25", features: ["Everything in Standard", "Upload your organization logo", "Set your mission statement", "Choose your brand colors", "Your name on the planner"], highlight: true },
             ].map((p, i) => (
               <div key={i} style={{
@@ -94,7 +91,6 @@ export default function HomePage() {
           </div>
         </div>
 
-        {/* Footer */}
         <div style={{ textAlign: "center", marginTop: 64, color: "#9CA3AF", fontSize: 12, letterSpacing: 1 }}>
           <p style={{ margin: "0 0 4px" }}>Daily Command Center · Created by Michelle Burdex</p>
           <p style={{ margin: 0 }}>© {new Date().getFullYear()} Michelle Burdex · All Rights Reserved</p>
@@ -103,3 +99,4 @@ export default function HomePage() {
     </main>
   );
 }
+Commit that and Vercel will redeploy automatically. Your homepage will show the updated copy within a few minutes. Rest well tonight — tomorrow we finish testing and get you ready to sell.Sonnet 4.6
