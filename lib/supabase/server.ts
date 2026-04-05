@@ -1,18 +1,14 @@
 import { createServerClient } from "@supabase/ssr";
 import { cookies } from "next/headers";
 
-// Server-side client. Uses the service role key for admin operations.
-// This file is ONLY imported in API routes (app/api/**).
-// It is never bundled into client-side JavaScript.
 export function createAdminClient() {
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!, // never exposed to browser
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
     { cookies: { getAll: () => [], setAll: () => {} } }
   );
 }
 
-// Regular server client — respects RLS, uses session cookie
 export function createServerSideClient() {
   const cookieStore = cookies();
   return createServerClient(
@@ -21,14 +17,17 @@ export function createServerSideClient() {
     {
       cookies: {
         getAll() { return cookieStore.getAll(); },
-        setAll(cookiesToSet) {
+        setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
+              cookieStore.set(name, value, options as Parameters<typeof cookieStore.set>[2])
             );
           } catch {}
         },
       },
+    }
+  );
+}
     }
   );
 }
