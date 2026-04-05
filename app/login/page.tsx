@@ -1,5 +1,5 @@
 "use client";
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/client";
@@ -10,7 +10,7 @@ const C = {
   red: "#991B1B", softRed: "#FEE2E2",
 };
 
-export default function LoginPage() {
+function LoginForm() {
   const router       = useRouter();
   const searchParams = useSearchParams();
   const redirectTo   = searchParams.get("redirectTo") || "/dashboard";
@@ -26,21 +26,14 @@ export default function LoginPage() {
     setError("");
     if (!form.email.trim())    return setError("Please enter your email address.");
     if (!form.password.trim()) return setError("Please enter your password.");
-
     setLoading(true);
     try {
       const supabase = createClient();
       const { error: authError } = await supabase.auth.signInWithPassword({
-        email:    form.email.trim().toLowerCase(),
+        email: form.email.trim().toLowerCase(),
         password: form.password,
       });
-
-      if (authError) {
-        // Never reveal whether the email exists — same message for all failures
-        setError("The email or password you entered is incorrect.");
-        return;
-      }
-
+      if (authError) { setError("The email or password you entered is incorrect."); return; }
       router.push(redirectTo);
       router.refresh();
     } catch {
@@ -51,13 +44,9 @@ export default function LoginPage() {
   }
 
   async function handleForgotPassword() {
-    if (!form.email.trim()) {
-      setError("Enter your email address above, then click Forgot Password.");
-      return;
-    }
+    if (!form.email.trim()) { setError("Enter your email address above, then click Forgot Password."); return; }
     setLoading(true);
     const supabase = createClient();
-    // Always shows success — prevents email enumeration
     await supabase.auth.resetPasswordForEmail(form.email.trim().toLowerCase(), {
       redirectTo: `${process.env.NEXT_PUBLIC_APP_URL}/auth/reset-password`,
     });
@@ -73,50 +62,36 @@ export default function LoginPage() {
         Don't have an account?{" "}
         <Link href="/signup" style={{ color: C.gold, fontWeight: 700 }}>Sign up</Link>
       </p>
-
       {error && <ErrorBox message={error} />}
-
       <Field label="Email Address">
-        <Input
-          type="email" placeholder="you@email.com"
-          value={form.email} onChange={set("email")}
-          autoComplete="email"
-          onKeyDown={e => e.key === "Enter" && handleSubmit()}
-        />
+        <Input type="email" placeholder="you@email.com" value={form.email} onChange={set("email")} autoComplete="email" onKeyDown={e => e.key === "Enter" && handleSubmit()} />
       </Field>
-
       <Field label="Password">
-        <Input
-          type="password" placeholder="Your password"
-          value={form.password} onChange={set("password")}
-          autoComplete="current-password"
-          onKeyDown={e => e.key === "Enter" && handleSubmit()}
-        />
+        <Input type="password" placeholder="Your password" value={form.password} onChange={set("password")} autoComplete="current-password" onKeyDown={e => e.key === "Enter" && handleSubmit()} />
       </Field>
-
       <div style={{ textAlign: "right", marginTop: -10, marginBottom: 20 }}>
-        <button onClick={handleForgotPassword} disabled={loading}
-          style={{ background: "none", border: "none", color: C.gold, fontSize: 13, cursor: "pointer", fontFamily: "'Lora',Georgia,serif", padding: 0 }}>
+        <button onClick={handleForgotPassword} disabled={loading} style={{ background: "none", border: "none", color: C.gold, fontSize: 13, cursor: "pointer", fontFamily: "'Lora',Georgia,serif", padding: 0 }}>
           Forgot password?
         </button>
       </div>
-
-      <button
-        onClick={handleSubmit} disabled={loading}
-        style={{ ...styles.btn, width: "100%", opacity: loading ? 0.7 : 1 }}
-      >
+      <button onClick={handleSubmit} disabled={loading} style={{ ...styles.btn, width: "100%", opacity: loading ? 0.7 : 1 }}>
         {loading ? "Signing in…" : "Sign In"}
       </button>
-
       <div style={{ marginTop: 24, padding: "16px", background: "#F5E6C0", borderRadius: 10, textAlign: "center" }}>
         <p style={{ margin: 0, fontSize: 13, color: C.green, lineHeight: 1.6 }}>
           Just purchased on Etsy?{" "}
-          <Link href="/redeem" style={{ color: C.green, fontWeight: 700, textDecoration: "underline" }}>
-            Redeem your access code here.
-          </Link>
+          <Link href="/redeem" style={{ color: C.green, fontWeight: 700, textDecoration: "underline" }}>Redeem your access code here.</Link>
         </p>
       </div>
     </PageShell>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100vh", background: "#FAF7F0", display: "flex", alignItems: "center", justifyContent: "center" }}>Loading…</div>}>
+      <LoginForm />
+    </Suspense>
   );
 }
 
@@ -144,17 +119,11 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 }
 
 function Input(props: React.InputHTMLAttributes<HTMLInputElement>) {
-  return (
-    <input {...props} style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: "1.5px solid #E5DFC8", fontFamily: "'Lora',Georgia,serif", fontSize: 14, color: C.green, background: C.cream, boxSizing: "border-box" as const }} />
-  );
+  return <input {...props} style={{ width: "100%", padding: "10px 14px", borderRadius: 8, border: "1.5px solid #E5DFC8", fontFamily: "'Lora',Georgia,serif", fontSize: 14, color: C.green, background: C.cream, boxSizing: "border-box" as const }} />;
 }
 
 function ErrorBox({ message }: { message: string }) {
-  return (
-    <div style={{ background: C.softRed, border: `1.5px solid ${C.red}`, borderRadius: 8, padding: "10px 14px", marginBottom: 18, fontSize: 13, color: C.red }}>
-      {message}
-    </div>
-  );
+  return <div style={{ background: C.softRed, border: `1.5px solid ${C.red}`, borderRadius: 8, padding: "10px 14px", marginBottom: 18, fontSize: 13, color: C.red }}>{message}</div>;
 }
 
 const styles = {
