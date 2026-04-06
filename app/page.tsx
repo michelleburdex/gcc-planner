@@ -1,74 +1,72 @@
-"use client";
-import { useState } from "react";
 import Link from "next/link";
-import { createClient } from "@/lib/supabase/client";
 
-const C = { green:"#1B4332", gold:"#C9A84C", cream:"#FAF7F0", white:"#FFFFFF", gray:"#6B7280", red:"#991B1B", softRed:"#FEE2E2" };
-
-export default function SignupPage() {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const [sent, setSent] = useState(false);
-
-  async function handleSubmit() {
-    setError("");
-    if (!email.trim()) return setError("Please enter your email address.");
-    setLoading(true);
-    try {
-      const supabase = createClient();
-      const { error: err } = await supabase.auth.signInWithOtp({
-        email: email.trim().toLowerCase(),
-        options: { emailRedirectTo: `${window.location.origin}/auth/callback` },
-      });
-      if (err) { setError(err.message); return; }
-      setSent(true);
-    } catch { setError("Network error. Please try again."); }
-    finally { setLoading(false); }
-  }
-
-  if (sent) return (
-    <Shell>
-      <div style={{textAlign:"center"}}>
-        <div style={{fontSize:48,marginBottom:16}}>✉️</div>
-        <h2 style={S.h2}>Check your email</h2>
-        <p style={S.sub}>We sent a magic link to <strong>{email}</strong>. Click it to access your planner. No password needed.</p>
-      </div>
-    </Shell>
-  );
-
+export default function HomePage() {
   return (
-    <Shell>
-      <h2 style={S.h2}>Get started</h2>
-      <p style={S.sub}>Enter your email and we will send you a magic link. No password needed. Already have access? <Link href="/login" style={{color:C.gold,fontWeight:700}}>Sign in</Link></p>
-      {error && <div style={{background:C.softRed,border:`1.5px solid ${C.red}`,borderRadius:8,padding:"10px 14px",marginBottom:18,fontSize:13,color:C.red}}>{error}</div>}
-      <label style={{display:"block",fontSize:13,fontWeight:700,color:C.green,marginBottom:6}}>Email Address</label>
-      <input type="email" value={email} onChange={e=>setEmail(e.target.value)} placeholder="you@email.com"
-        onKeyDown={e=>e.key==="Enter"&&handleSubmit()}
-        style={{width:"100%",padding:"10px 14px",borderRadius:8,border:"1.5px solid #E5DFC8",fontFamily:"'Lora',Georgia,serif",fontSize:14,color:C.green,background:C.cream,boxSizing:"border-box",marginBottom:18}} />
-      <button onClick={handleSubmit} disabled={loading}
-        style={{width:"100%",background:C.green,color:C.white,padding:"12px",borderRadius:8,fontWeight:700,fontSize:15,border:"none",cursor:"pointer",opacity:loading?0.7:1,fontFamily:"'Lora',Georgia,serif"}}>
-        {loading?"Sending…":"Send Magic Link"}
-      </button>
-    </Shell>
+    <main style={{ minHeight: "100vh", background: "#FAF7F0" }}>
+      <div style={{ background: "linear-gradient(135deg, #1B4332 0%, #2D6A4F 100%)", borderBottom: "4px solid #C9A84C", padding: "80px 24px", textAlign: "center" }}>
+        <p style={{ color: "#C9A84C", fontSize: 12, letterSpacing: 3, textTransform: "uppercase", marginBottom: 16 }}>
+          Michelle Burdex · Nonprofit Leadership Tools
+        </p>
+        <h1 style={{ color: "#FFFFFF", fontSize: "clamp(32px, 6vw, 56px)", fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, margin: "0 0 16px", lineHeight: 1.15 }}>
+          The Daily Command Center
+        </h1>
+        <p style={{ color: "#A7D5B5", fontSize: 18, maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.7 }}>
+          A faith-based daily command center for nonprofit leaders to stay organized, focused, and grounded.
+        </p>
+        <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
+          <Link href="/signup" style={{ background: "#C9A84C", color: "#1B4332", padding: "14px 32px", borderRadius: 8, fontWeight: 700, fontSize: 16, textDecoration: "none", fontFamily: "'Lora', Georgia, serif" }}>
+            Get Access
+          </Link>
+          <Link href="/login" style={{ background: "transparent", color: "#FFFFFF", padding: "14px 32px", borderRadius: 8, fontWeight: 600, fontSize: 16, textDecoration: "none", border: "1.5px solid rgba(255,255,255,0.4)", fontFamily: "'Lora', Georgia, serif" }}>
+            Sign In
+          </Link>
+        </div>
+      </div>
+      <div style={{ maxWidth: 900, margin: "0 auto", padding: "64px 24px" }}>
+        <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#1B4332", fontSize: 28, textAlign: "center", marginBottom: 48 }}>
+          Where faith meets organized and effective leadership execution.
+        </h2>
+        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))", gap: 24 }}>
+          {[
+            { icon: "✝️",  title: "Daily Scripture",         body: "A new verse every morning to center your spirit before the work begins." },
+            { icon: "✍🏾", title: "Task Categories",         body: "Grant work, follow-ups, program coordination, leadership development — all organized and color-coded." },
+            { icon: "📖",  title: "Persistent Journal",      body: "Every entry saves to your account. Flip back through past days anytime." },
+            { icon: "👑",  title: "Power Map & Leadership",  body: "Reflection prompts and a weekly checklist to keep your executive goals in view." },
+            { icon: "🌿",  title: "Protected Mental Breaks", body: "Two built-in breaks per day. Rest is not a luxury. It is maintenance." },
+            { icon: "✨",  title: "Premium Customization",   body: "Add your own logo, colors, and mission statement. Make it yours." },
+          ].map((f, i) => (
+            <div key={i} style={{ background: "#FFFFFF", borderRadius: 14, padding: 24, border: "1.5px solid #E5DFC8", boxShadow: "0 2px 8px rgba(0,0,0,0.04)" }}>
+              <div style={{ fontSize: 28, marginBottom: 12 }}>{f.icon}</div>
+              <h3 style={{ color: "#1B4332", fontFamily: "'Playfair Display', Georgia, serif", fontSize: 17, margin: "0 0 8px" }}>{f.title}</h3>
+              <p style={{ color: "#6B7280", fontSize: 14, lineHeight: 1.6, margin: 0 }}>{f.body}</p>
+            </div>
+          ))}
+        </div>
+        <div style={{ marginTop: 72, textAlign: "center" }}>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "#1B4332", fontSize: 28, marginBottom: 40 }}>Simple, one-time pricing.</h2>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: 24, maxWidth: 640, margin: "0 auto" }}>
+            {[
+              { tier: "Standard", price: "$12", features: ["All planner features", "Daily scripture & affirmation", "Full journal archive", "Green & gold design", "Lifetime access"], highlight: false },
+              { tier: "Premium",  price: "$25", features: ["Everything in Standard", "Upload your organization logo", "Set your mission statement", "Choose your brand colors", "Your name on the planner"], highlight: true },
+            ].map((p, i) => (
+              <div key={i} style={{ background: p.highlight ? "linear-gradient(135deg,#1B4332,#2D6A4F)" : "#FFFFFF", borderRadius: 16, padding: 28, border: `2px solid ${p.highlight ? "#C9A84C" : "#E5DFC8"}`, boxShadow: p.highlight ? "0 8px 32px rgba(27,67,50,0.25)" : "0 2px 8px rgba(0,0,0,0.04)" }}>
+                <div style={{ color: p.highlight ? "#C9A84C" : "#A07820", fontSize: 12, letterSpacing: 2, textTransform: "uppercase", marginBottom: 8 }}>{p.tier}</div>
+                <div style={{ color: p.highlight ? "#FFFFFF" : "#1B4332", fontSize: 40, fontFamily: "'Playfair Display',Georgia,serif", fontWeight: 900, marginBottom: 20 }}>{p.price}</div>
+                {p.features.map((f, j) => (
+                  <div key={j} style={{ color: p.highlight ? "#C8E6D0" : "#4B5563", fontSize: 14, marginBottom: 8, display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ color: "#C9A84C" }}>✓</span> {f}
+                  </div>
+                ))}
+                <p style={{ color: p.highlight ? "#A7D5B5" : "#6B7280", fontSize: 12, marginTop: 16, fontStyle: "italic" }}>Purchase on Etsy, then redeem your code here.</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div style={{ textAlign: "center", marginTop: 64, color: "#9CA3AF", fontSize: 12, letterSpacing: 1 }}>
+          <p style={{ margin: "0 0 4px" }}>Daily Command Center · Created by Michelle Burdex</p>
+          <p style={{ margin: 0 }}>© {new Date().getFullYear()} Michelle Burdex · All Rights Reserved</p>
+        </div>
+      </div>
+    </main>
   );
 }
-
-function Shell({children}:{children:React.ReactNode}) {
-  return (
-    <div style={{minHeight:"100vh",background:C.cream,display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",padding:"24px 16px"}}>
-      <Link href="/" style={{textDecoration:"none",marginBottom:32,textAlign:"center"}}>
-        <div style={{color:C.gold,fontSize:10,letterSpacing:3,textTransform:"uppercase"}}>Michelle Burdex</div>
-        <div style={{color:C.green,fontFamily:"'Playfair Display',Georgia,serif",fontWeight:900,fontSize:22}}>Daily Command Center</div>
-      </Link>
-      <div style={{background:C.white,borderRadius:16,padding:"36px 32px",width:"100%",maxWidth:440,boxShadow:"0 4px 24px rgba(27,67,50,0.10)",border:"1.5px solid #E5DFC8"}}>
-        {children}
-      </div>
-    </div>
-  );
-}
-
-const S = {
-  h2:{fontFamily:"'Playfair Display',Georgia,serif",color:"#1B4332",fontSize:24,fontWeight:900,margin:"0 0 8px"} as React.CSSProperties,
-  sub:{color:"#6B7280",fontSize:14,margin:"0 0 24px",lineHeight:1.6} as React.CSSProperties,
-};
