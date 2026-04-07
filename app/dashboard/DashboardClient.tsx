@@ -57,13 +57,13 @@ const AFFIRMATIONS = [
   "My presence is valuable. My perspective is necessary. My work matters beyond what any title can contain.",
   "I attract the right partnerships, the right funding, and the right opportunities because I show up fully and faithfully.",
   "Rest is not weakness. It is the discipline of someone who plans to keep going for a very long time.",
-  "I am not just a builder. I am a cultural architect. A keeper of memory. A builder of futures.",
+  "I am not just a coordinator. I am a cultural architect. A keeper of memory. A builder of futures.",
   "Every door I open for this mission is a door I am also opening for myself.",
   "I lead with integrity and warmth. People trust me because I show them I am worthy of it, every single day.",
   "I am not behind. I am right on time. My journey is unfolding exactly as it should.",
   "The next level is not a distant dream. It is a decision I am making with every intentional action today.",
   "I am enough. I am ready. I am resourced from within. And I am just getting started.",
-  "We did not come this far to only come this far. We are headed to greatness.",
+  "We did not come this far to only come this far. So will everything I touch.",
 ];
 
 const LEADER_HABITS = [
@@ -111,7 +111,7 @@ const LEADERSHIP_CHECKS = [
   "Attended or requested to attend a leadership meeting or board session",
   "Sent a thought leadership email, social post, or article share",
   "Had a meaningful conversation with a mentor or senior colleague",
-  "Created and reviewed my power map and added or removed at least one connection",
+  "Reviewed my power map and added or removed at least one connection",
   "Researched a job posting at my target level just to benchmark expectations",
   "Identified one thing I want to be known for and acted on it today",
 ];
@@ -281,7 +281,7 @@ export default function DashboardClient({ profile, entryDates }: DashboardClient
               {profile.tier === "premium" && profile.org_name ? profile.org_name : "Daily Command Center"}
             </div>
             <div style={{ color: "#FFFFFF", fontSize: "clamp(20px,4vw,28px)", fontFamily: "'Playfair Display',Georgia,serif", fontWeight: 900, lineHeight: 1.15 }}>
-              {displayName}'s Daily Command Center
+              {profile.full_name || (profile.tier === "premium" && profile.org_name) ? `${displayName}'s Daily Command Center` : "Daily Command Center"}
             </div>
             <div style={{ color: "#A7D5B5", fontSize: 13, marginTop: 6, display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
               <span>{formatDisplayDate(viewKey)}</span>
