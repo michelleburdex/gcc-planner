@@ -8,7 +8,7 @@ export default function HomePage() {
           Michelle Burdex · Nonprofit Leadership Tools
         </p>
         <h1 style={{ color: "#FFFFFF", fontSize: "clamp(32px, 6vw, 56px)", fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 900, margin: "0 0 16px", lineHeight: 1.15 }}>
-          The Daily Command Center
+          Daily Command Center
         </h1>
         <p style={{ color: "#A7D5B5", fontSize: 18, maxWidth: 560, margin: "0 auto 40px", lineHeight: 1.7 }}>
           A faith-based daily command center for nonprofit leaders to stay organized, focused, and grounded.
